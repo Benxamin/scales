@@ -40,12 +40,17 @@
                     <label for="ConfigRootNote">Root note</label>
                     <select id="ConfigRootNote" name="configRootNote">
                         <option value="A">A</option>
+                        <option value="B-flat">B&flat;</option>
                         <option value="B">B</option>
                         <option value="C" selected>C</option>
+                        <option value="C-sharp">C&sharp;</option>
                         <option value="D">D</option>
+                        <option value="E-flat">E&flat;</option>
                         <option value="E">E</option>
                         <option value="F">F</option>
+                        <option value="F-sharp">F&sharp;</option>
                         <option value="G">G</option>
+                        <option value="G-sharp">G&sharp;</option>
                     </select>
                 </div>
             </form>
@@ -66,14 +71,14 @@
                 <li class="step half" >H</li>
             </ol>
             <ol class="scale notes" id="notes">
-                <il class="note"><span title="First scale degree">C</span></il>
-                <il class="note"><span title="Second scale degree">D</span></il>
-                <il class="note"><span title="Third scale degree">E</span></il>
-                <il class="note"><span title="Fourth scale degree">F</span></il>
-                <il class="note"><span title="Fifth scale degree">G</span></il>
-                <il class="note"><span title="Sixth scale degree">A</span></il>
-                <il class="note"><span title="Seventh scale degree">B</span></il>
-                <il class="note"><span title="Eighth scale degree">C</span></il>
+                <il class="note" id="scale-degree-1"><span title="First scale degree">C</span></il>
+                <il class="note" id="scale-degree-2"><span title="Second scale degree">D</span></il>
+                <il class="note" id="scale-degree-3"><span title="Third scale degree">E</span></il>
+                <il class="note" id="scale-degree-4"><span title="Fourth scale degree">F</span></il>
+                <il class="note" id="scale-degree-5"><span title="Fifth scale degree">G</span></il>
+                <il class="note" id="scale-degree-6"><span title="Sixth scale degree">A</span></il>
+                <il class="note" id="scale-degree-7"><span title="Seventh scale degree">B</span></il>
+                <il class="note" id="scale-degree-8"><span title="Eighth scale degree">C</span></il>
             </ol>
             <ol class="keys piano" id="keys">
                 <li class="key white" data-scale="" tabindex="0">C</li>
