@@ -1,0 +1,59 @@
+/* scale.css */
+/* # Benjamin Bertrand 01/21/2023 */
+ol, ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+li {
+    border: 1px solid #3e3d32;
+    display: block;
+    padding: 0.4rem;
+    text-align: center;
+}
+.scale {
+    background-color:  #3e3d32;
+    border-color: #66d9ef;
+    color: #66d9ef;
+    padding: 4vh 0 0;
+}
+.scale.notes {
+    color: #eee;
+    padding: 0 0 2vh;
+} 
+.scale .step {
+    background-color: rgba(102, 216, 239, 0.25);
+    border: 1px solid #66d9ef;
+}
+.scale .note {
+    cursor: default;
+    padding: 0.4rem;
+    position: relative;
+}
+.scale-type-major .scale .note:nth-child(1) {
+    right: 1.65rem;
+}
+.scale-type-major .scale .note:nth-child(2) {
+    right: 0.95rem;
+}
+.scale-type-major .scale .note:nth-child(3) {
+    right: 0.25rem;
+}
+.scale-type-major .scale .note:nth-child(4) {
+
+}
+.scale-type-major .scale .note:nth-child(5) {
+    left: 0.75rem
+}
+.scale-type-major .scale .note:nth-child(6) {
+    left: 1.25rem
+}
+.scale-type-major .scale .note:nth-child(7) {
+    left: 1.75rem
+}
+.scale-type-major .scale .note:nth-child(8) {
+    left: 1.75rem
+}
