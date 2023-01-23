@@ -138,7 +138,8 @@ const getOrdinalText = function(scaleDegreeElement) {
 const updateScaleDegree = function(scaleDegreeElement, note) {
     var noteDisplayText = convertTextToAccidental(note);
     var ordinalText = getOrdinalText(scaleDegreeElement);
-    var scaleDegreeTemplate = `<span title='${ordinalText} scale degree'>${noteDisplayText}</span>`;
+    var accidentalClass = (note.indexOf('-') > -1) ? ` class=accidental` : '';
+    var scaleDegreeTemplate = `<span title='${ordinalText} scale degree'${accidentalClass}>${noteDisplayText}</span>`;
 
     setInnerText(scaleDegreeElement, scaleDegreeTemplate);
 }
