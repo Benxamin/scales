@@ -10,6 +10,7 @@ const rootNoteSelectorElement = document.getElementById("ConfigRootNote");
 const mainGeneratedElement = document.getElementById("GeneratedMain");
 const scaleTypeDescriptionElement = document.getElementById("ScaleTypeDescription");
 const rootNoteDescriptionElement = document.getElementById("RootNoteDescription");
+const scaleStepsListElement = document.getElementById("steps");
 const scaleDegreeElements = {
     scaleDegree1: document.getElementById("scale-degree-1"),
     scaleDegree2: document.getElementById("scale-degree-2"),
@@ -34,20 +35,26 @@ const setInnerText = function(textElement, newText) {
     textElement.innerHTML = newText;
 };
 
-const updateScaleStyleClass = function(scaleTypeClassElement) {
+const updateScaleStyleClass = function(scaleTypeClassElement, scaleType) {
+    var scaleTypeClass = `scale-type-${scaleType}`;
+
     if (scaleTypeClassElement.classList.contains('scale-type-minor')) {
-        scaleTypeClassElement.classList.replace('scale-type-minor', 'scale-type-major');
+        scaleTypeClassElement.classList.replace('scale-type-minor', scaleTypeClass);
     }
-    else if(scaleTypeClassElement.classList.contains('scale-type-major')) {
-        scaleTypeClassElement.classList.replace('scale-type-major', 'scale-type-minor');
+    else if (scaleTypeClassElement.classList.contains('scale-type-major')) {
+        scaleTypeClassElement.classList.replace('scale-type-major', scaleTypeClass);
     }
 };
 
+const getScalePattern = function(scaleType) {
+    return (scaleType === 'minor') ? MINOR_SCALE_PATTERN : MAJOR_SCALE_PATTERN;
+};
+
 const getStepPattern = function(scaleType) {
-    var pattern = (scaleType === 'minor') ? MINOR_SCALE_PATTERN : MAJOR_SCALE_PATTERN;
+    var pattern = getScalePattern(scaleType);
 
     return pattern.map((step) => step === 'W' ? 2 : 1);
-}
+};
 
 const generateScale = function(rootNote, scaleType) {
     let generatedNoteScale = [];
@@ -151,14 +158,32 @@ const updateNotes = function(rootNote) {
     }
 };
 
+const updateScaleSteps = function(scaleStepsListElement, scaleType) {
+    var scaleStepsListItems = '';
+    var pattern = getScalePattern(scaleType);
+
+    pattern.forEach((step) => {
+        var stepText = (step === 'W') ? 'whole' : 'half';
+        var scaleStepsListItemsTemplate = `\n\t\t\t\t<li class="step ${stepText}">${step}</li>`;
+        scaleStepsListItems += scaleStepsListItemsTemplate;
+    });
+
+    setInnerText(scaleStepsListElement, scaleStepsListItems);
+};
+
 // Changes.
 const updateScaleType = function(newScaleType) {
     setInnerText(scaleTypeDescriptionElement, newScaleType);
-    updateScaleStyleClass(mainGeneratedElement);
+
+    var scaleType = newScaleType.toLowerCase();
+
+    updateScaleStyleClass(mainGeneratedElement, scaleType);
+    updateScaleSteps(scaleStepsListElement, scaleType);
 };
 
 const updateRootNote = function(newRootNote) {
     var noteDisplayText = convertTextToAccidental(newRootNote);
+
     setInnerText(rootNoteDescriptionElement, noteDisplayText);
     updateNotes(newRootNote);
 };
