@@ -37,9 +37,6 @@ const setInnerText = function(textElement, newText) {
     textElement.innerHTML = newText;
 };
 
-const toggleSound = function() {
-    
-};
 const updateScaleStyleClass = function(scaleTypeClassElement, scaleType) {
     var scaleTypeClass = `scale-type-${scaleType}`;
 
