@@ -12,6 +12,23 @@
     font-size: 1rem;
     margin: 0 1rem 0 0;
 }
+.configuration .setting button {
+    background-color: #fc8db0;
+    border-color: #ff508a;
+    border-radius: 0.1875rem;
+    color: #333;
+    font: normal 1rem/1 Calibri;
+    font-weight: 700;
+    padding: 0.2rem 0.65rem;
+    text-align: center;
+    text-transform: uppercase;
+    min-width: 8rem;
+}
+.configuration .setting button.on {
+    background-color: #da1f5d;
+    border-color: #ff508a;
+    color: #f1f1f1;
+}
 .configuration header {
     display: none;
 }
