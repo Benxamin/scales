@@ -3,8 +3,10 @@ const NOTES = new Array('A', 'B-flat', 'B', 'C', 'C-sharp', 'D', 'E-flat', 'E', 
 const MAJOR_SCALE_PATTERN = new Array('W', 'W', 'H', 'W', 'W', 'W', 'H');
 const MINOR_SCALE_PATTERN = new Array('W', 'H', 'W', 'W', 'H', 'W', 'W');
 const SCALE_NOTES_COUNT = 8;
+let isGlobalSoundEnabled = false;
 
 // Select Elements
+const soundEnableButtonElement = document.getElementById("EnableSound");
 const scaleSelectorElement = document.getElementById("ConfigScaleType");
 const rootNoteSelectorElement = document.getElementById("ConfigRootNote");
 const mainGeneratedElement = document.getElementById("GeneratedMain");
@@ -189,8 +191,25 @@ const updateRootNote = function(newRootNote) {
     updateNotes(newRootNote);
 };
 
+const updateEnableSoundButton = function(shouldBeOn) {
+    if (shouldBeOn) {
+        // activate sound
+        setInnerText(soundEnableButtonElement, 'Sound On');
+        soundEnableButtonElement.className = 'on';
+    } else {
+        // deactivate sound
+        setInnerText(soundEnableButtonElement, soundEnableButtonElement.getAttribute("data-text-original"));
+        soundEnableButtonElement.className = 'off';
+    }
+}
+
 
 // Handle changes.
+const handleEnableSoundClick = function() {
+    isGlobalSoundEnabled = !isGlobalSoundEnabled;
+    updateEnableSoundButton(isGlobalSoundEnabled);
+}
+
 const handleScaleTypeChange = function(changeEvent) {
     const newScaleTypeValue = changeEvent.target.value;
 
@@ -204,5 +223,6 @@ const handleRootNoteChange = function(changeEvent) {
 };
 
 // Wire up functionality.
+soundEnableButtonElement.addEventListener("click", handleEnableSoundClick);
 scaleSelectorElement.addEventListener("change", handleScaleTypeChange);
 rootNoteSelectorElement.addEventListener("change", handleRootNoteChange);
