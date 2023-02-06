@@ -87,8 +87,8 @@ const getOrdinalText = function(scaleDegreeElement) {
 
     if (scaleDegreeElement && scaleDegreeElement.id && scaleDegreeElement.id.length > 0) {
         const lastIdPosition = scaleDegreeElement.id.length - 1;
-        const lastIdCharcater = scaleDegreeElement.id.substring(lastIdPosition);
-        const num = parseInt(lastIdCharcater, 10);
+        const lastIdCharacter = scaleDegreeElement.id.substring(lastIdPosition);
+        const num = parseInt(lastIdCharacter, 10);
 
         switch(num) {
             case 1:
