@@ -23,6 +23,7 @@ const scaleDegreeElements = {
     scaleDegree7: document.getElementById("scale-degree-7"),
     scaleDegree8: document.getElementById("scale-degree-8")
 };
+const keyElements = document.getElementsByClassName("key");
 
 // Define utility functions.
 const convertTextToAccidental = function(noteText) {
@@ -30,6 +31,27 @@ const convertTextToAccidental = function(noteText) {
     var accidental = (parts.length > 1) ? `&${parts[1]};` : '';
 
     return `${parts[0]}${accidental}`;
+};
+
+const convertTextToOctaveSymbol = function(noteText, ocatveIndex = 4) {
+    let parts = noteText.split('-');
+    let accidental = '';
+
+    if (parts.length > 1) {
+        if (parts[1] === 'flat') {
+            accidental = '♭';
+        }
+        else if (parts[1] === 'sharp') {
+            accidental = '♯';
+        }
+    }
+
+    if (ocatveIndex < 3 || ocatveIndex > 5) {
+        console.warn(`Specified octave ${ocatveIndex} exceeds this chart. Resetting to middle 4.`)
+        ocatveIndex = 4;
+    }
+
+    return `${parts[0]}${ocatveIndex.toString()}${accidental}`;
 };
 
 const setInnerText = function(textElement, newText) {
@@ -174,6 +196,41 @@ const updateScaleSteps = function(scaleStepsListElement, scaleType) {
     setInnerText(scaleStepsListElement, scaleStepsListItems);
 };
 
+const resetKeyboard = function() {
+    for (element of keyElements) {
+        element.setAttribute('data-scale', '');
+    }
+};
+
+const highlightNewScale = function(newRootNote) {
+    const selectedScaleIndex = scaleSelectorElement.options.selectedIndex;
+    const currentScaleType = scaleSelectorElement.options[selectedScaleIndex].value.toLowerCase();
+    const currentScaleNotes = generateScale(newRootNote, currentScaleType);
+    const middleCIndex = NOTES.indexOf('C');
+
+    for (var i = 0; i < currentScaleNotes.length; i++) {
+
+        if (NOTES.indexOf(currentScaleNotes[i]) < middleCIndex) {
+            ocatveIndex = 3;
+        } else {
+            ocatveIndex = 4;
+        }
+
+        if (i === 0) {
+            let rootKeyId = `${convertTextToOctaveSymbol(currentScaleNotes[i], ocatveIndex)}`;
+            let rootKeyElement = document.getElementById(rootKeyId);
+            rootKeyElement.setAttribute('data-scale', 'current');
+        }
+
+
+    }
+};
+
+const updateHighlightedKeys = function(newRootNote) {
+    resetKeyboard();
+    highlightNewScale(newRootNote);
+};
+
 // Changes.
 const updateScaleType = function(newScaleType) {
     setInnerText(scaleTypeDescriptionElement, newScaleType);
@@ -189,6 +246,7 @@ const updateRootNote = function(newRootNote) {
 
     setInnerText(rootNoteDescriptionElement, noteDisplayText);
     updateNotes(newRootNote);
+    updateHighlightedKeys(newRootNote);
 };
 
 const updateEnableSoundButton = function(shouldBeOn) {
