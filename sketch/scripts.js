@@ -202,11 +202,24 @@ const resetKeyboard = function() {
     }
 };
 
+const findNextNoteKeyElement = function(keyElement, nextScaleNoteId) {
+    let nextElement = keyElement;
+
+    if (nextElement.nextElementSibling?.id === nextScaleNoteId) {
+        return keyElement.nextElementSibling;
+    } else {
+        return findNextNoteKeyElement(nextElement.nextElementSibling, nextScaleNoteId);
+    }
+};
+
 const highlightNewScale = function(newRootNote) {
     const selectedScaleIndex = scaleSelectorElement.options.selectedIndex;
     const currentScaleType = scaleSelectorElement.options[selectedScaleIndex].value.toLowerCase();
     const currentScaleNotes = generateScale(newRootNote, currentScaleType);
     const middleCIndex = NOTES.indexOf('C');
+    const ocatveIndex = 4;
+    let currentKeyElement;
+    let currentNoteId;
 
     for (var i = 0; i < currentScaleNotes.length; i++) {
 
@@ -216,13 +229,17 @@ const highlightNewScale = function(newRootNote) {
             ocatveIndex = 4;
         }
 
+        currentNoteId =  `${convertTextToOctaveSymbol(currentScaleNotes[i], ocatveIndex)}`;
+
         if (i === 0) {
-            let rootKeyId = `${convertTextToOctaveSymbol(currentScaleNotes[i], ocatveIndex)}`;
+            let rootKeyId = currentNoteId;
             let rootKeyElement = document.getElementById(rootKeyId);
             rootKeyElement.setAttribute('data-scale', 'current');
+            currentKeyElement = rootKeyElement;
+        } else {
+            currentKeyElement = findNextNoteKeyElement(currentKeyElement, currentNoteId);
+            currentKeyElement.setAttribute('data-scale', 'current');
         }
-
-
     }
 };
 
