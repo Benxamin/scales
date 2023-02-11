@@ -216,17 +216,23 @@ const highlightNewScale = function(newRootNote) {
     const selectedScaleIndex = scaleSelectorElement.options.selectedIndex;
     const currentScaleType = scaleSelectorElement.options[selectedScaleIndex].value.toLowerCase();
     const currentScaleNotes = generateScale(newRootNote, currentScaleType);
-    const middleCIndex = NOTES.indexOf('C');
-    const ocatveIndex = 4;
+    const cIndex = NOTES.indexOf('C');
+    const cSharpIndex = NOTES.indexOf('C-sharp');
+    const currentScaleHasC = currentScaleNotes.indexOf('C') > -1;
+    let ocatveIndex = 3;
     let currentKeyElement;
     let currentNoteId;
 
     for (var i = 0; i < currentScaleNotes.length; i++) {
 
-        if (NOTES.indexOf(currentScaleNotes[i]) < middleCIndex) {
-            ocatveIndex = 3;
+        if (currentScaleHasC) {
+            if (NOTES.indexOf(currentScaleNotes[i]) === cIndex) {
+                ocatveIndex++;
+            }
         } else {
-            ocatveIndex = 4;
+            if (NOTES.indexOf(currentScaleNotes[i]) === cSharpIndex) {
+                ocatveIndex++;
+            }
         }
 
         currentNoteId =  `${convertTextToOctaveSymbol(currentScaleNotes[i], ocatveIndex)}`;
