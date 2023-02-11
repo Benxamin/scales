@@ -218,8 +218,9 @@ const highlightNewScale = function(newRootNote) {
     const currentScaleNotes = generateScale(newRootNote, currentScaleType);
     const cIndex = NOTES.indexOf('C');
     const cSharpIndex = NOTES.indexOf('C-sharp');
+    const rootNoteIndex = NOTES.indexOf(newRootNote);
     const currentScaleHasC = currentScaleNotes.indexOf('C') > -1;
-    let ocatveIndex = 3;
+    let ocatveIndex = (rootNoteIndex > cIndex) ? 4 : 3;
     let currentKeyElement;
     let currentNoteId;
 
