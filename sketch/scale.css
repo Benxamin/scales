@@ -35,7 +35,7 @@ li {
 }
 .scale .note .accidental {
     margin-left: -0.25rem;
-    margin-right: -0.25rem;
+    margin-right: -0.5rem;
 }
 /* Major */
 .scale-type-major .scale .note:nth-child(1) {
