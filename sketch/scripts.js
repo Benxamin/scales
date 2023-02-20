@@ -159,6 +159,12 @@ const getOrdinalText = function(scaleDegreeElement) {
     return ordinalText;
 };
 
+const getCurrentValueFromSelectorElement = function(selectorElement) {
+    let selectedIndex = selectorElement.options.selectedIndex;
+
+    return selectorElement.options[selectedIndex].value.toLowerCase();
+}
+
 const updateScaleDegree = function(scaleDegreeElement, note) {
     var noteDisplayText = convertTextToAccidental(note);
     var ordinalText = getOrdinalText(scaleDegreeElement);
@@ -169,8 +175,7 @@ const updateScaleDegree = function(scaleDegreeElement, note) {
 }
 
 const updateNotes = function(rootNote) {
-    var selectedScaleIndex = scaleSelectorElement.options.selectedIndex;
-    var currentScale = scaleSelectorElement.options[selectedScaleIndex].value.toLowerCase();
+    var currentScale = getCurrentValueFromSelectorElement(scaleSelectorElement);
     var scaleNotes = generateScale(rootNote, currentScale);
 
     if (scaleNotes.length > 0 && scaleNotes.length <= 8) {
@@ -285,6 +290,14 @@ const updateEnableSoundButton = function(shouldBeOn) {
     }
 }
 
+const refreshScaleNotes = function(newScaleType) {
+    var rootNoteValue = getCurrentValueFromSelectorElement(rootNoteSelectorElement);
+    var accidentalRootNote = convertTextToAccidental(rootNoteValue.toUpperCase());
+
+    updateNotes(accidentalRootNote);
+    updateHighlightedKeys(accidentalRootNote);
+};
+
 
 // Handle changes.
 const handleEnableSoundClick = function() {
@@ -296,6 +309,7 @@ const handleScaleTypeChange = function(changeEvent) {
     const newScaleTypeValue = changeEvent.target.value;
 
     updateScaleType(newScaleTypeValue);
+    refreshScaleNotes(newScaleTypeValue);
 };
 
 const handleRootNoteChange = function(changeEvent) {
