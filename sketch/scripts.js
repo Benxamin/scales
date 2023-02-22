@@ -319,6 +319,6 @@ const handleRootNoteChange = function(changeEvent) {
 };
 
 // Wire up functionality.
-soundEnableButtonElement.addEventListener("click", handleEnableSoundClick);
+// soundEnableButtonElement.addEventListener("click", handleEnableSoundClick);
 scaleSelectorElement.addEventListener("change", handleScaleTypeChange);
 rootNoteSelectorElement.addEventListener("change", handleRootNoteChange);
