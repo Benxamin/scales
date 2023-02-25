@@ -71,18 +71,32 @@ const updateScaleStyleClass = function(scaleTypeClassElement, scaleType) {
     const SCALE_TYPE_PREFIX = 'scale-type-';
     const scaleTypeClass = `${SCALE_TYPE_PREFIX}${scaleType}`;
 
-    scaleTypeClassElement.classList.replace('scale-type-ionain', scaleTypeClass);
-    scaleTypeClassElement.classList.replace('scale-type-dorian', scaleTypeClass);
-    scaleTypeClassElement.classList.replace('scale-type-phyrgian', scaleTypeClass);
-    scaleTypeClassElement.classList.replace('scale-type-lydian', scaleTypeClass);
-    scaleTypeClassElement.classList.replace('scale-type-mixolydian', scaleTypeClass);
-    scaleTypeClassElement.classList.replace('scale-type-aeolian', scaleTypeClass);
-    scaleTypeClassElement.classList.replace('scale-type-locrian', scaleTypeClass);
+    if (scaleTypeClassElement.classList.contains('scale-type-ionian')) {
+        scaleTypeClassElement.classList.replace('scale-type-ionian', scaleTypeClass);
+    }
+    else if (scaleTypeClassElement.classList.contains('scale-type-dorian')) {
+        scaleTypeClassElement.classList.replace('scale-type-dorian', scaleTypeClass);
+    }
+    else if (scaleTypeClassElement.classList.contains('scale-type-phyrgian')) {
+        scaleTypeClassElement.classList.replace('scale-type-phyrgian', scaleTypeClass);
+    }
+    else if (scaleTypeClassElement.classList.contains('scale-type-lydian')) {
+        scaleTypeClassElement.classList.replace('scale-type-lydian', scaleTypeClass);
+    }
+    else if (scaleTypeClassElement.classList.contains('scale-type-mixolydian')) {
+        scaleTypeClassElement.classList.replace('scale-type-mixolydian', scaleTypeClass);
+    }
+    else if (scaleTypeClassElement.classList.contains('scale-type-aeolian')) {
+        scaleTypeClassElement.classList.replace('scale-type-aeolian', scaleTypeClass);
+    }
+    else if (scaleTypeClassElement.classList.contains('scale-type-locrian')) {
+        scaleTypeClassElement.classList.replace('scale-type-locrian', scaleTypeClass);
+    }
 };
 
 const getScalePattern = function(scaleType) {
     switch (scaleType) {
-        case 'ionain':
+        case 'ionian':
             return IONIAN_MODE_PATTERN;
         case 'dorian':
             return DORIAN_MODE_PATTERN;
