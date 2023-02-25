@@ -37,52 +37,25 @@ li {
     margin-left: -0.25rem;
     margin-right: -0.5rem;
 }
-/* Major */
-.scale-type-major .scale .note:nth-child(1) {
-    right: 1.65rem;
+/* Ionion */
+.notes .scale .note:nth-child(1) {
+    right: 1.9rem;
 }
-.scale-type-major .scale .note:nth-child(2) {
-    right: 0.95rem;
-}
-.scale-type-major .scale .note:nth-child(3) {
-    right: 0.25rem;
-}
-.scale-type-major .scale .note:nth-child(4) {
-}
-.scale-type-major .scale .note:nth-child(5) {
-    left: 0.75rem;
-}
-.scale-type-major .scale .note:nth-child(6) {
-    left: 1.25rem;
-}
-.scale-type-major .scale .note:nth-child(7) {
-    left: 1.75rem;
-}
-.scale-type-major .scale .note:nth-child(8) {
-    left: 1.75rem;
-}
-/* Minor */
-.scale-type-minor .scale .note:nth-child(1) {
-    right: 2.0rem;
-}
-.scale-type-minor .scale .note:nth-child(2) {
+.notes .scale .note:nth-child(2) {
     right: 1.25rem;
 }
-.scale-type-minor .scale .note:nth-child(3) {
-    right: 1.0rem;
+.notes .scale .note:nth-child(3) {
+    right: 0.5rem;
 }
-.scale-type-minor .scale .note:nth-child(4) {
-    right: 0.25rem;
+.notes .scale .note:nth-child(5) {
+    left: 0.5rem;
 }
-.scale-type-minor .scale .note:nth-child(5) {
-    left: 0.50rem
+.notes .scale .note:nth-child(6) {
+    left: 1rem;
 }
-.scale-type-minor .scale .note:nth-child(6) {
-    left: 0.65rem
+.notes .scale .note:nth-child(7) {
+    left: 1.75rem;
 }
-.scale-type-minor .scale .note:nth-child(7) {
-    left: 1.25rem
-}
-.scale-type-minor .scale .note:nth-child(8) {
-    left: 2.0rem
+.notes .scale .note:nth-child(8) {
+    left: 1.75rem;
 }

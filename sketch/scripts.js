@@ -1,8 +1,16 @@
 // Define constants.
 const NOTES = new Array('A', 'B-flat', 'B', 'C', 'C-sharp', 'D', 'E-flat', 'E', 'F', 'F-sharp', 'G', 'G-sharp');
+const IONIAN_MODE_PATTERN = new Array('W', 'W', 'H', 'W', 'W', 'W', 'H');
+const DORIAN_MODE_PATTERN = new Array('W', 'H', 'W', 'W', 'W', 'H', 'W');
+const PHRYGIAN_MODE_PATTERN = new Array('H', 'W', 'W', 'W', 'H', 'W', 'W');
+const LYDIAN_MODE_PATTERN = new Array('W', 'W', 'W', 'H', 'W', 'W', 'H');
+const MIXOLYDIAN_MODE_PATTERN = new Array('W', 'W', 'H', 'W', 'W', 'H', 'W');
+const AEOLIAN_MODE_PATTERN = new Array('W', 'H', 'W', 'W', 'H', 'W', 'W');
+const LOCRIAN_MODE_PATTERN = new Array('H', 'W', 'W', 'H', 'W', 'W', 'W');
 const MAJOR_SCALE_PATTERN = new Array('W', 'W', 'H', 'W', 'W', 'W', 'H');
 const MINOR_SCALE_PATTERN = new Array('W', 'H', 'W', 'W', 'H', 'W', 'W');
 const SCALE_NOTES_COUNT = 8;
+
 let isGlobalSoundEnabled = false;
 
 // Select Elements
@@ -12,16 +20,16 @@ const rootNoteSelectorElement = document.getElementById("ConfigRootNote");
 const mainGeneratedElement = document.getElementById("GeneratedMain");
 const scaleTypeDescriptionElement = document.getElementById("ScaleTypeDescription");
 const rootNoteDescriptionElement = document.getElementById("RootNoteDescription");
-const scaleStepsListElement = document.getElementById("steps");
+const scaleStepsListElement = document.getElementById("Steps");
 const scaleDegreeElements = {
-    scaleDegree1: document.getElementById("scale-degree-1"),
-    scaleDegree2: document.getElementById("scale-degree-2"),
-    scaleDegree3: document.getElementById("scale-degree-3"),
-    scaleDegree4: document.getElementById("scale-degree-4"),
-    scaleDegree5: document.getElementById("scale-degree-5"),
-    scaleDegree6: document.getElementById("scale-degree-6"),
-    scaleDegree7: document.getElementById("scale-degree-7"),
-    scaleDegree8: document.getElementById("scale-degree-8")
+    scaleDegree1: document.getElementById("ScaleDegree1"),
+    scaleDegree2: document.getElementById("ScaleDegree2"),
+    scaleDegree3: document.getElementById("ScaleDegree3"),
+    scaleDegree4: document.getElementById("ScaleDegree4"),
+    scaleDegree5: document.getElementById("ScaleDegree5"),
+    scaleDegree6: document.getElementById("ScaleDegree6"),
+    scaleDegree7: document.getElementById("ScaleDegree7"),
+    scaleDegree8: document.getElementById("ScaleDegree8")
 };
 const keyElements = document.getElementsByClassName("key");
 
@@ -60,18 +68,51 @@ const setInnerText = function(textElement, newText) {
 };
 
 const updateScaleStyleClass = function(scaleTypeClassElement, scaleType) {
-    var scaleTypeClass = `scale-type-${scaleType}`;
+    const SCALE_TYPE_PREFIX = 'scale-type-';
+    const scaleTypeClass = `${SCALE_TYPE_PREFIX}${scaleType}`;
 
-    if (scaleTypeClassElement.classList.contains('scale-type-minor')) {
-        scaleTypeClassElement.classList.replace('scale-type-minor', scaleTypeClass);
+    if (scaleTypeClassElement.classList.contains('scale-type-ionian')) {
+        scaleTypeClassElement.classList.replace('scale-type-ionian', scaleTypeClass);
     }
-    else if (scaleTypeClassElement.classList.contains('scale-type-major')) {
-        scaleTypeClassElement.classList.replace('scale-type-major', scaleTypeClass);
+    else if (scaleTypeClassElement.classList.contains('scale-type-dorian')) {
+        scaleTypeClassElement.classList.replace('scale-type-dorian', scaleTypeClass);
+    }
+    else if (scaleTypeClassElement.classList.contains('scale-type-phyrgian')) {
+        scaleTypeClassElement.classList.replace('scale-type-phyrgian', scaleTypeClass);
+    }
+    else if (scaleTypeClassElement.classList.contains('scale-type-lydian')) {
+        scaleTypeClassElement.classList.replace('scale-type-lydian', scaleTypeClass);
+    }
+    else if (scaleTypeClassElement.classList.contains('scale-type-mixolydian')) {
+        scaleTypeClassElement.classList.replace('scale-type-mixolydian', scaleTypeClass);
+    }
+    else if (scaleTypeClassElement.classList.contains('scale-type-aeolian')) {
+        scaleTypeClassElement.classList.replace('scale-type-aeolian', scaleTypeClass);
+    }
+    else if (scaleTypeClassElement.classList.contains('scale-type-locrian')) {
+        scaleTypeClassElement.classList.replace('scale-type-locrian', scaleTypeClass);
     }
 };
 
 const getScalePattern = function(scaleType) {
-    return (scaleType === 'minor') ? MINOR_SCALE_PATTERN : MAJOR_SCALE_PATTERN;
+    switch (scaleType) {
+        case 'ionian':
+            return IONIAN_MODE_PATTERN;
+        case 'dorian':
+            return DORIAN_MODE_PATTERN;
+        case 'phyrgian':
+            return PHRYGIAN_MODE_PATTERN;
+        case 'lydian':
+            return LYDIAN_MODE_PATTERN;
+        case 'mixolydian':
+            return MIXOLYDIAN_MODE_PATTERN;
+        case 'aeolian':
+            return AEOLIAN_MODE_PATTERN;
+        case 'locrian':
+            return LOCRIAN_MODE_PATTERN;
+        default:
+            return IONIAN_MODE_PATTERN;
+    }
 };
 
 const getStepPattern = function(scaleType) {
@@ -81,6 +122,7 @@ const getStepPattern = function(scaleType) {
 };
 
 const generateScale = function(rootNote, scaleType) {
+    // TODO: Add sharp/flat preference.
     let generatedNoteScale = [];
     const notesEnd = NOTES.length;
     const scaleEnd = SCALE_NOTES_COUNT;
@@ -280,11 +322,9 @@ const updateRootNote = function(newRootNote) {
 
 const updateEnableSoundButton = function(shouldBeOn) {
     if (shouldBeOn) {
-        // activate sound
         setInnerText(soundEnableButtonElement, 'Sound On');
         soundEnableButtonElement.className = 'on';
     } else {
-        // deactivate sound
         setInnerText(soundEnableButtonElement, soundEnableButtonElement.getAttribute("data-text-original"));
         soundEnableButtonElement.className = 'off';
     }

@@ -30,10 +30,15 @@
                     </select>
                 </div>
                 <div class="setting config-scale-type">
-                    <label for="ConfigScaleType">Scale</label>
+                    <label for="ConfigScaleType">Mode</label>
                     <select id="ConfigScaleType" name="configScale">
-                        <option value="Major">Major</option>
-                        <option value="Minor">Minor</option>
+                        <option value="Ionian">Ionian (Major)</option>
+                        <option value="Dorian">Dorian</option>
+                        <option value="Phyrgian">Phyrgian</option>
+                        <option value="Lydian">Lydian</option>
+                        <option value="Mixolydian">Mixolydian</option>
+                        <option value="Aeolian">Aeolian (Minor)</option>
+                        <option value="Locrian">Locrian</option>
                     </select>
                 </div>
                 <div class="setting config-root">
@@ -63,8 +68,8 @@
         <header>
             <h2>Scale: <span class="header-rootNote" id="RootNoteDescription">C</span> <span class="header-scale-type" id="ScaleTypeDescription">Major</span></h2>
         </header>
-        <main class="notes scale-type-major" id="GeneratedMain">
-            <ol class="scale" id="steps">
+        <main class="notes scale-type-ionian" id="GeneratedMain">
+            <ol class="scale" id="Steps">
                 <li class="step whole">W</li>
                 <li class="step whole">W</li>
                 <li class="step half" >H</li>
@@ -73,17 +78,17 @@
                 <li class="step whole">W</li>
                 <li class="step half" >H</li>
             </ol>
-            <ol class="scale notes" id="notes">
-                <il class="note" id="scale-degree-1"><span title="First scale degree">C</span></il>
-                <il class="note" id="scale-degree-2"><span title="Second scale degree">D</span></il>
-                <il class="note" id="scale-degree-3"><span title="Third scale degree">E</span></il>
-                <il class="note" id="scale-degree-4"><span title="Fourth scale degree">F</span></il>
-                <il class="note" id="scale-degree-5"><span title="Fifth scale degree">G</span></il>
-                <il class="note" id="scale-degree-6"><span title="Sixth scale degree">A</span></il>
-                <il class="note" id="scale-degree-7"><span title="Seventh scale degree">B</span></il>
-                <il class="note" id="scale-degree-8"><span title="Eighth scale degree">C</span></il>
+            <ol class="scale notes" id="Notes">
+                <il class="note" id="ScaleDegree1"><span title="First scale degree">C</span></il>
+                <il class="note" id="ScaleDegree2"><span title="Second scale degree">D</span></il>
+                <il class="note" id="ScaleDegree3"><span title="Third scale degree">E</span></il>
+                <il class="note" id="ScaleDegree4"><span title="Fourth scale degree">F</span></il>
+                <il class="note" id="ScaleDegree5"><span title="Fifth scale degree">G</span></il>
+                <il class="note" id="ScaleDegree6"><span title="Sixth scale degree">A</span></il>
+                <il class="note" id="ScaleDegree7"><span title="Seventh scale degree">B</span></il>
+                <il class="note" id="ScaleDegree8"><span title="Eighth scale degree">C</span></il>
             </ol>
-            <ol class="keys piano" id="keys">
+            <ol class="keys piano" id="Keys">
                 <li class="key white" id="C3"  data-scale="" tabindex="0">C</li>
                 <li class="key black" id="C3♯" data-scale="" tabindex="0">C&sharp;</li>
                 <li class="key white" id="D3"  data-scale="" tabindex="0">D</li>
