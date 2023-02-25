@@ -25,7 +25,8 @@
     min-width: 8rem;
 }
 .configuration .setting button.on {
-    background-color: #da1f5d;
+    background: radial-gradient(circle, rgba(207,10,75,1) 0%, rgba(218,31,93,1) 100%);
+    /* background-color: #da1f5d; */
     border-color: #ff508a;
     color: #f1f1f1;
 }

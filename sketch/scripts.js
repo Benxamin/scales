@@ -338,7 +338,6 @@ const refreshScaleNotes = function(newScaleType) {
     updateHighlightedKeys(accidentalRootNote);
 };
 
-
 // Handle changes.
 const handleEnableSoundClick = function() {
     isGlobalSoundEnabled = !isGlobalSoundEnabled;
@@ -346,19 +345,19 @@ const handleEnableSoundClick = function() {
 }
 
 const handleScaleTypeChange = function(changeEvent) {
-    const newScaleTypeValue = changeEvent.target.value;
+    const newScaleTypeValue = changeEvent.target.value || 'ionian';
 
     updateScaleType(newScaleTypeValue);
     refreshScaleNotes(newScaleTypeValue);
 };
 
 const handleRootNoteChange = function(changeEvent) {
-    const newRootNoteValue = changeEvent.target.value;
+    const newRootNoteValue = changeEvent.target.value || 'C';
 
     updateRootNote(newRootNoteValue);
 };
 
 // Wire up functionality.
-// soundEnableButtonElement.addEventListener("click", handleEnableSoundClick);
 scaleSelectorElement.addEventListener("change", handleScaleTypeChange);
 rootNoteSelectorElement.addEventListener("change", handleRootNoteChange);
+soundEnableButtonElement.addEventListener("click", handleEnableSoundClick);
