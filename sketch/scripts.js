@@ -296,9 +296,31 @@ const highlightNewScale = function(newRootNote) {
     }
 };
 
+const playNewScale = function() {
+    if (!isGlobalSoundEnabled) {
+        return;
+    }
+
+    console.info('Playing new scale...');
+
+    const decay = 500; // Milliseconds.
+    const playKeyEvent = new CustomEvent('PLAY_KEY', { bubbles: true });
+    const endPlayKeyEvent = new CustomEvent('STOP_KEY', { bubbles: true });
+    const currentKeysCollection = document.querySelectorAll('[data-scale="current"]');
+
+    for (let i = 0; i < currentKeysCollection.length; i++) {
+        setTimeout(() => {
+            currentKeysCollection[i].dispatchEvent(playKeyEvent);
+            setTimeout(() => { currentKeysCollection[i].dispatchEvent(endPlayKeyEvent); }, 400);
+            // console.info(i, currentKeysCollection[i], i * decay);
+        }, i * decay);
+    };
+}
+
 const updateHighlightedKeys = function(newRootNote) {
     resetKeyboard();
     highlightNewScale(newRootNote);
+    playNewScale();
 };
 
 // Changes.
