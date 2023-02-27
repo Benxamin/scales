@@ -122,9 +122,11 @@ const toggleSoundButton = document.getElementById("EnableSound");
             gainNode.gain.setValueAtTime(gainNode.gain.value, audioContext.currentTime);
             gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.05);
             setTimeout(() => {
-                oscillatorList[note.name].stop();
-                delete oscillatorList[note.name];
-                delete dataset["pressed"];
+                if (oscillatorList[note.name]) {
+                    oscillatorList[note.name].stop();
+                    delete oscillatorList[note.name];
+                    delete dataset["pressed"];
+                }
             }, 50);
         }
     };
