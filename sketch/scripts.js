@@ -34,7 +34,7 @@ const scaleDegreeElements = {
 const keyElements = document.getElementsByClassName("key");
 
 // Define utility functions.
-const convertTextToAccidental = function(noteText) {
+const getNoteDisplayText = function(noteText) {
     var parts = noteText.split('-');
     var accidental = (parts.length > 1) ? `&${parts[1]};` : '';
 
@@ -204,11 +204,11 @@ const getOrdinalText = function(scaleDegreeElement) {
 const getCurrentValueFromSelectorElement = function(selectorElement) {
     let selectedIndex = selectorElement.options.selectedIndex;
 
-    return selectorElement.options[selectedIndex].value.toLowerCase();
+    return selectorElement.options[selectedIndex].value;
 }
 
 const updateScaleDegree = function(scaleDegreeElement, note) {
-    var noteDisplayText = convertTextToAccidental(note);
+    var noteDisplayText = getNoteDisplayText(note);
     var ordinalText = getOrdinalText(scaleDegreeElement);
     var accidentalClass = (note.indexOf('-') > -1) ? ` class=accidental` : '';
     var scaleDegreeTemplate = `<span title='${ordinalText} scale degree'${accidentalClass}>${noteDisplayText}</span>`;
@@ -260,8 +260,7 @@ const findNextNoteKeyElement = function(keyElement, nextScaleNoteId) {
 };
 
 const highlightNewScale = function(newRootNote) {
-    const selectedScaleIndex = scaleSelectorElement.options.selectedIndex;
-    const currentScaleType = scaleSelectorElement.options[selectedScaleIndex].value.toLowerCase();
+    const currentScaleType = getCurrentValueFromSelectorElement(scaleSelectorElement).toLowerCase();
     const currentScaleNotes = generateScale(newRootNote, currentScaleType);
     const cIndex = NOTES.indexOf('C');
     const cSharpIndex = NOTES.indexOf('C-sharp');
@@ -297,9 +296,31 @@ const highlightNewScale = function(newRootNote) {
     }
 };
 
+const playNewScale = function() {
+    if (!isGlobalSoundEnabled) {
+        return;
+    }
+
+    console.info('Playing new scale...');
+
+    const decay = 500; // Milliseconds.
+    const playKeyEvent = new CustomEvent('PLAY_KEY', { bubbles: true });
+    const endPlayKeyEvent = new CustomEvent('STOP_KEY', { bubbles: true });
+    const currentKeysCollection = document.querySelectorAll('[data-scale="current"]');
+
+    for (let i = 0; i < currentKeysCollection.length; i++) {
+        setTimeout(() => {
+            currentKeysCollection[i].dispatchEvent(playKeyEvent);
+            setTimeout(() => { currentKeysCollection[i].dispatchEvent(endPlayKeyEvent); }, 400);
+            // console.info(i, currentKeysCollection[i], i * decay);
+        }, i * decay);
+    };
+}
+
 const updateHighlightedKeys = function(newRootNote) {
     resetKeyboard();
     highlightNewScale(newRootNote);
+    playNewScale();
 };
 
 // Changes.
@@ -313,7 +334,7 @@ const updateScaleType = function(newScaleType) {
 };
 
 const updateRootNote = function(newRootNote) {
-    var noteDisplayText = convertTextToAccidental(newRootNote);
+    var noteDisplayText = getNoteDisplayText(newRootNote);
 
     setInnerText(rootNoteDescriptionElement, noteDisplayText);
     updateNotes(newRootNote);
@@ -322,20 +343,22 @@ const updateRootNote = function(newRootNote) {
 
 const updateEnableSoundButton = function(shouldBeOn) {
     if (shouldBeOn) {
+        isGlobalSoundEnabled = true;
         setInnerText(soundEnableButtonElement, 'Sound On');
         soundEnableButtonElement.className = 'on';
     } else {
+        isGlobalSoundEnabled = false;
         setInnerText(soundEnableButtonElement, soundEnableButtonElement.getAttribute("data-text-original"));
         soundEnableButtonElement.className = 'off';
     }
 }
 
-const refreshScaleNotes = function(newScaleType) {
+const refreshScaleNotes = function() {
     var rootNoteValue = getCurrentValueFromSelectorElement(rootNoteSelectorElement);
-    var accidentalRootNote = convertTextToAccidental(rootNoteValue.toUpperCase());
+    var accidentalRootNote = getNoteDisplayText(rootNoteValue.toUpperCase());
 
-    updateNotes(accidentalRootNote);
-    updateHighlightedKeys(accidentalRootNote);
+    updateNotes(rootNoteValue);
+    updateHighlightedKeys(rootNoteValue);
 };
 
 
@@ -349,7 +372,7 @@ const handleScaleTypeChange = function(changeEvent) {
     const newScaleTypeValue = changeEvent.target.value;
 
     updateScaleType(newScaleTypeValue);
-    refreshScaleNotes(newScaleTypeValue);
+    refreshScaleNotes();
 };
 
 const handleRootNoteChange = function(changeEvent) {
@@ -359,6 +382,6 @@ const handleRootNoteChange = function(changeEvent) {
 };
 
 // Wire up functionality.
-// soundEnableButtonElement.addEventListener("click", handleEnableSoundClick);
+soundEnableButtonElement.addEventListener("click", handleEnableSoundClick);
 scaleSelectorElement.addEventListener("change", handleScaleTypeChange);
 rootNoteSelectorElement.addEventListener("change", handleRootNoteChange);

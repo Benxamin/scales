@@ -11,33 +11,6 @@ const toggleSoundButton = document.getElementById("EnableSound");
 
     gainNode.connect(audioContext.destination);
 
-    // Autoplay policy.
-    const initToggleSoundHandler = function(containerElement) {
-        containerElement.addEventListener('TOGGLE_SOUND', () => {
-            if (audioContext.state === 'suspended') {
-                audioContext.resume().then(() => {
-                    console.info("Sound ON. Playback resumed.");
-                });
-            } else if (audioContext.state === 'running') {
-                audioContext.suspend().then(() => {
-                    console.info("Sound OFF. Plackback suspended.");
-                });
-            }
-        }, false);
-    };
-
-    const initToggleSound = function(toggleSoundElement) {
-        const toggleSoundEvent = new CustomEvent('TOGGLE_SOUND', { bubbles: true });
-
-        toggleSoundElement.addEventListener('click', () => {
-            toggleSoundElement.dispatchEvent(toggleSoundEvent);
-        }, false);
-    };
-
-    // Set-up.
-    initToggleSound(soundActivationElement);
-    initToggleSoundHandler(soundContainerElement);
-
     // Build playable notes.
     let oscillatorList = [];
 
@@ -98,15 +71,13 @@ const toggleSoundButton = document.getElementById("EnableSound");
             return;
         }
 
-        if (event.buttons & 1) {
-            const dataset = event.target.dataset;
-            const note = Notes.find(note => note.name === event.target.id);
+        const dataset = event.target.dataset;
+        const note = Notes.find(note => note.name === event.target.id);
 
-            gainNode.gain.setValueAtTime(0.0001, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(gainNode.gain.defaultValue, audioContext.currentTime + 0.03);
-            oscillatorList[note.name] = playSound(note.frequency);
-            dataset.pressed = "true";
-        }
+        gainNode.gain.setValueAtTime(0.0001, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(gainNode.gain.defaultValue, audioContext.currentTime + 0.03);
+        oscillatorList[note.name] = playSound(note.frequency);
+        dataset.pressed = "true";
     };
 
     const endNotePlaying = function(event) {
@@ -122,21 +93,74 @@ const toggleSoundButton = document.getElementById("EnableSound");
             gainNode.gain.setValueAtTime(gainNode.gain.value, audioContext.currentTime);
             gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.05);
             setTimeout(() => {
-                oscillatorList[note.name].stop();
-                delete oscillatorList[note.name];
-                delete dataset["pressed"];
+                if (oscillatorList[note.name]) {
+                    oscillatorList[note.name].stop();
+                    delete oscillatorList[note.name];
+                    delete dataset["pressed"];
+                }
             }, 50);
         }
     };
 
     Notes.forEach((note) => {
         const keyElement = window.document.getElementById(note.name);
+        const playKeyEvent = new CustomEvent('PLAY_KEY', { bubbles: true, detail: { buttons: 1 } });
+        const endPlayKeyEvent = new CustomEvent('STOP_KEY', { bubbles: true });
 
         if (typeof keyElement != 'undefined') {
-            keyElement.addEventListener('mousedown', startNotePlaying);
-            keyElement.addEventListener('mouseover', startNotePlaying);
-            keyElement.addEventListener('mouseleave', endNotePlaying);
-            keyElement.addEventListener('mouseup', endNotePlaying);
+            keyElement.addEventListener('mousedown', (event) => {
+                if (event.buttons & 1) {
+                    event.target.dispatchEvent(playKeyEvent);
+                }
+            });
+            keyElement.addEventListener('mouseover', (event) => {
+                if (event.buttons & 1) {
+                    event.target.dispatchEvent(playKeyEvent);
+                }
+            });
+            keyElement.addEventListener('mouseleave', (event) => {
+                event.target.dispatchEvent(endPlayKeyEvent);
+            });
+            keyElement.addEventListener('mouseup', (event) => {
+                event.target.dispatchEvent(endPlayKeyEvent);
+            });
+            // keyElement.addEventListener('mousedown', startNotePlaying);
+            // keyElement.addEventListener('mouseover', startNotePlaying);
+            // keyElement.addEventListener('mouseleave', endNotePlaying);
+            // keyElement.addEventListener('mouseup', endNotePlaying);
         }
     });
+
+    // Autoplay policy.
+    const initToggleSoundHandler = function(containerElement) {
+        containerElement.addEventListener('TOGGLE_SOUND', () => {
+            if (audioContext.state === 'suspended') {
+                audioContext.resume().then(() => {
+                    console.info("Sound ON. Playback resumed.");
+                });
+            } else if (audioContext.state === 'running') {
+                audioContext.suspend().then(() => {
+                    console.info("Sound OFF. Plackback suspended.");
+                });
+            }
+        }, false);
+        containerElement.addEventListener("PLAY_KEY", (event) => {
+            startNotePlaying(event);
+        });
+        containerElement.addEventListener("STOP_KEY", (event) => {
+            endNotePlaying(event);
+        });
+    };
+
+    const initToggleSound = function(toggleSoundElement) {
+        const toggleSoundEvent = new CustomEvent('TOGGLE_SOUND', { bubbles: true });
+
+        toggleSoundElement.addEventListener('click', () => {
+            toggleSoundElement.dispatchEvent(toggleSoundEvent);
+        }, false);
+    };
+
+    // Set-up.
+    initToggleSound(soundActivationElement);
+    initToggleSoundHandler(soundContainerElement);
 })(window.document, toggleSoundButton);
