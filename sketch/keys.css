@@ -36,8 +36,8 @@
     background-color: #486461;
     border-color: #66d9ef; 
 }
-/* #middle:focus,
-#middle:hover {
+.key.white[data-pressed~="true"],
+.key.black[data-pressed~="true"] {
     border-color: #f92672;
     background-color: #fc92b2;
-} */
+}
