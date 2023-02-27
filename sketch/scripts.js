@@ -34,7 +34,7 @@ const scaleDegreeElements = {
 const keyElements = document.getElementsByClassName("key");
 
 // Define utility functions.
-const convertTextToAccidental = function(noteText) {
+const getNoteDisplayText = function(noteText) {
     var parts = noteText.split('-');
     var accidental = (parts.length > 1) ? `&${parts[1]};` : '';
 
@@ -204,11 +204,11 @@ const getOrdinalText = function(scaleDegreeElement) {
 const getCurrentValueFromSelectorElement = function(selectorElement) {
     let selectedIndex = selectorElement.options.selectedIndex;
 
-    return selectorElement.options[selectedIndex].value.toLowerCase();
+    return selectorElement.options[selectedIndex].value;
 }
 
 const updateScaleDegree = function(scaleDegreeElement, note) {
-    var noteDisplayText = convertTextToAccidental(note);
+    var noteDisplayText = getNoteDisplayText(note);
     var ordinalText = getOrdinalText(scaleDegreeElement);
     var accidentalClass = (note.indexOf('-') > -1) ? ` class=accidental` : '';
     var scaleDegreeTemplate = `<span title='${ordinalText} scale degree'${accidentalClass}>${noteDisplayText}</span>`;
@@ -260,8 +260,7 @@ const findNextNoteKeyElement = function(keyElement, nextScaleNoteId) {
 };
 
 const highlightNewScale = function(newRootNote) {
-    const selectedScaleIndex = scaleSelectorElement.options.selectedIndex;
-    const currentScaleType = scaleSelectorElement.options[selectedScaleIndex].value.toLowerCase();
+    const currentScaleType = getCurrentValueFromSelectorElement(scaleSelectorElement).toLowerCase();
     const currentScaleNotes = generateScale(newRootNote, currentScaleType);
     const cIndex = NOTES.indexOf('C');
     const cSharpIndex = NOTES.indexOf('C-sharp');
@@ -313,7 +312,7 @@ const updateScaleType = function(newScaleType) {
 };
 
 const updateRootNote = function(newRootNote) {
-    var noteDisplayText = convertTextToAccidental(newRootNote);
+    var noteDisplayText = getNoteDisplayText(newRootNote);
 
     setInnerText(rootNoteDescriptionElement, noteDisplayText);
     updateNotes(newRootNote);
@@ -322,20 +321,22 @@ const updateRootNote = function(newRootNote) {
 
 const updateEnableSoundButton = function(shouldBeOn) {
     if (shouldBeOn) {
+        isGlobalSoundEnabled = true;
         setInnerText(soundEnableButtonElement, 'Sound On');
         soundEnableButtonElement.className = 'on';
     } else {
+        isGlobalSoundEnabled = false;
         setInnerText(soundEnableButtonElement, soundEnableButtonElement.getAttribute("data-text-original"));
         soundEnableButtonElement.className = 'off';
     }
 }
 
-const refreshScaleNotes = function(newScaleType) {
+const refreshScaleNotes = function() {
     var rootNoteValue = getCurrentValueFromSelectorElement(rootNoteSelectorElement);
-    var accidentalRootNote = convertTextToAccidental(rootNoteValue.toUpperCase());
+    var accidentalRootNote = getNoteDisplayText(rootNoteValue.toUpperCase());
 
-    updateNotes(accidentalRootNote);
-    updateHighlightedKeys(accidentalRootNote);
+    updateNotes(rootNoteValue);
+    updateHighlightedKeys(rootNoteValue);
 };
 
 
@@ -349,7 +350,7 @@ const handleScaleTypeChange = function(changeEvent) {
     const newScaleTypeValue = changeEvent.target.value;
 
     updateScaleType(newScaleTypeValue);
-    refreshScaleNotes(newScaleTypeValue);
+    refreshScaleNotes();
 };
 
 const handleRootNoteChange = function(changeEvent) {
