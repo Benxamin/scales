@@ -1,0 +1,38 @@
+@media only screen and (max-width: 800px), only screen and (max-device-width: 800px) {
+    .page {
+        width: 100vw;
+    }
+}
+@media only screen and (max-width: 700px), only screen and (max-device-width: 700px) {
+    #C3, #C3\#, #D3, #E3, #F3\#, #G3, #G3\#,
+    #A5, #B5\♭, #B5 {
+        display: none;
+    }
+}
+@media only screen and (max-width: 375px), only screen and (max-device-width: 375px) {
+    .page.header, header {
+        padding: 0.5rem;
+    }
+    .settings {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .configuration form {
+        flex-direction: column;
+    }
+    .configuration .setting {
+        margin: 0 0 0.5rem 0;
+    }
+    .configuration .config-enable-sound {
+        margin-bottom: 0;
+    }
+    .setting.config-instrument select {
+        width: 260px;
+    }
+    .setting.config-scale-type select {
+        width: 308px;
+    }
+    .setting.config-root select {
+        width: 272px;
+    }
+}
