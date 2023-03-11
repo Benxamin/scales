@@ -1,3 +1,4 @@
+
 @media only screen and (max-width: 800px), only screen and (max-device-width: 800px) {
     .page {
         width: 100vw;
@@ -9,7 +10,17 @@
         display: none;
     }
 }
-@media only screen and (max-width: 375px), only screen and (max-device-width: 375px) {
+@media only screen and (max-width: 630px) {
+    .key {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+        width: 6vw;
+    }
+}
+@media only screen and (max-width: 515px) {
+    form label {
+        margin-right: 0.25rem;
+    }
     .page.header, header {
         padding: 0.5rem;
     }
@@ -21,18 +32,35 @@
         flex-direction: column;
     }
     .configuration .setting {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         margin: 0 0 0.5rem 0;
     }
-    .configuration .config-enable-sound {
-        margin-bottom: 0;
+    .configuration .setting button,
+    .configuration .setting select {
+        width: 100%;
     }
-    .setting.config-instrument select {
-        width: 260px;
+    .key {
+        font-size: 1.4rem;
     }
-    .setting.config-scale-type select {
-        width: 308px;
+        .key.black {
+        font-size: 1.2rem;
     }
-    .setting.config-root select {
-        width: 272px;
+}
+@media only screen and (max-width: 475px) {
+    .key {
+        font-size: 1.3rem;
+    }
+    .key.black {
+        font-size: 1.1rem;
+    }
+}
+@media only screen and (max-width: 450px) {
+    .key {
+        font-size: 1.2rem;
+    }
+        .key.black {
+        font-size: 1.0rem;
     }
 }
